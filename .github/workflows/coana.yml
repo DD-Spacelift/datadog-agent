@@ -21,4 +21,4 @@ jobs:
             coana run . \
               --api-key ${{ secrets.COANA_API_KEY }} \
               --repo-url https://github.com/${{github.repository}} \
-              --memory-limit 8192
+              --memory-limit 8192 --ecosystems NPM
