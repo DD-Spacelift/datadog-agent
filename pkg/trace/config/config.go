@@ -24,6 +24,8 @@ import (
 	"github.com/DataDog/datadog-agent/pkg/trace/traceutil"
 )
 
+//go:generate mockgen -source=$GOFILE -destination=../remoteconfighandler/mock_remote_client.go -package=remoteconfighandler
+
 // ServiceName specifies the service name used in the operating system.
 const ServiceName = "datadog-trace-agent"
 
@@ -527,7 +529,7 @@ type AgentConfig struct {
 type RemoteClient interface {
 	Close()
 	Start()
-	Subscribe(string, func(update map[string]state.RawConfig, applyStateCallback func(string, state.ApplyStatus)))
+	Subscribe(string, func(update map[string]state.RawConfig, applyStateCallback func(string, state.ApplyStatus))) func()
 	UpdateApplyStatus(cfgPath string, status state.ApplyStatus)
 }
 
