@@ -1,0 +1,24 @@
+name: Coana Vulnerability Analysis
+ 
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * *' # every day at 3 AM
+ 
+jobs:
+  coana-vulnerability-analysis:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+ 
+      - name: Run Coana CLI
+        id: coana-cli
+        uses: docker://coana/coana:latest
+        with: 
+          args: |
+            coana run . \
+              --api-key ${{ secrets.COANA_API_KEY }} \
+              --repo-url https://github.com/${{github.repository}} \
+              --memory-limit 8192 --ecosystems PIP
